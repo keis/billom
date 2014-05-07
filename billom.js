@@ -4,19 +4,23 @@
 var vm = require('npm-check-updates/lib/versionmanager'),
     async = require('async'),
     hogan = require('hogan.js'),
-    tmpl;
+    path = require('path'),
+    template,
+    packageFile;
 
-tmpl = "<!doctype html><html><head>" +
+template = hogan.compile("<!doctype html><html><head>" +
     "<style>body {font-size: 16px;} tr.outdated {background: red}</style>" +
     "</head><body><table>" +
     "<tr><td>package</td><td>current</td><td>installed</td><td>latest</td></tr>" +
     "{{#packages}}<tr class=\"package{{#outdated}} outdated{{/outdated}}\">" +
     "<td>{{package}}</td><td>{{current}}</td><td>{{installed}}</td><td>{{latest}}</td></tr>{{/packages}}" +
-    "</table></body></html>";
+    "</table></body></html>");
 
+packageFile = process.argv[2] || 'package.json';
+
+process.chdir(path.dirname(packageFile));
 vm.initialize(false, function () {
-    var packageFile = 'package.json',
-        template = hogan.compile(tmpl);
+    console.log(process.cwd());
 
     async.series({
         current: function (callback) {
