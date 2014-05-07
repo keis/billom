@@ -20,8 +20,6 @@ packageFile = process.argv[2] || 'package.json';
 
 process.chdir(path.dirname(packageFile));
 vm.initialize(false, function () {
-    console.log(process.cwd());
-
     async.series({
         current: function (callback) {
             vm.getCurrentDependencies(packageFile, callback);
