@@ -1,0 +1,17 @@
+{
+    "name": "billom",
+    "description": "Generate a neat inventory of used packages",
+    "version": "0.1.0",
+    "repository": "http://github.com/keis/billom.git",
+    "keywords": ["bom"],
+    "license": "MIT",
+    "main": "billom.js",
+    "bin": {
+        "billom": "./billom.js"
+    },
+    "dependencies": {
+        "async": "~0.8.0",
+        "npm-check-updates": "1.2.0",
+        "hogan.js": "~2.0.0"
+    }
+}
