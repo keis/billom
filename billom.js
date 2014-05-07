@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict';
 
 var vm = require('npm-check-updates/lib/versionmanager'),
