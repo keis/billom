@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            body {font-size: 16px;}
+            tr.outdated {background: red}
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>package</td>
+                <td>current</td>
+                <td>installed</td>
+                <td>latest</td>
+            </tr>
+            {{#packages}}
+            <tr class="package{{#outdated}} outdated{{/outdated}}">
+                <td>{{package}}</td>
+                <td>{{current}}</td>
+                <td>{{installed}}</td>
+                <td>{{latest}}</td>
+            </tr>
+            {{/packages}}
+        </table>
+    </body>
+</html>

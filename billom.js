@@ -5,22 +5,34 @@ var vm = require('npm-check-updates/lib/versionmanager'),
     async = require('async'),
     hogan = require('hogan.js'),
     path = require('path'),
-    template,
+    fs = require('fs'),
     packageFile;
 
-template = hogan.compile("<!doctype html><html><head>" +
-    "<style>body {font-size: 16px;} tr.outdated {background: red}</style>" +
-    "</head><body><table>" +
-    "<tr><td>package</td><td>current</td><td>installed</td><td>latest</td></tr>" +
-    "{{#packages}}<tr class=\"package{{#outdated}} outdated{{/outdated}}\">" +
-    "<td>{{package}}</td><td>{{current}}</td><td>{{installed}}</td><td>{{latest}}</td></tr>{{/packages}}" +
-    "</table></body></html>");
+function loadTemplate(callback) {
+    var filename = path.join(__dirname, 'template.tmpl');
+    fs.readFile(filename, 'utf-8', function (err, data) {
+        var template;
+
+        if (err) {
+            return callback(err);
+        }
+
+        try {
+            template = hogan.compile(data);
+        } catch (err) {
+            return callback(err);
+        }
+
+        callback(null, template);
+    });
+}
 
 packageFile = process.argv[2] || 'package.json';
 
 process.chdir(path.dirname(packageFile));
 vm.initialize(false, function () {
     async.series({
+        template: loadTemplate,
         current: function (callback) {
             vm.getCurrentDependencies(packageFile, callback);
         },
@@ -28,12 +40,14 @@ vm.initialize(false, function () {
             vm.getInstalledPackages(callback);
         }
     }, function (err, results) {
-        var packages;
+        var packages,
+            template;
 
         if (err) {
             return console.error('An error occured: ' + err);
         }
 
+        template = results.template;
         packages = Object.keys(results.installed);
 
         vm.getLatestVersions(packages, function (err, latest) {
