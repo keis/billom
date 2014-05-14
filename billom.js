@@ -6,7 +6,8 @@ var vm = require('npm-check-updates/lib/versionmanager'),
     hogan = require('hogan.js'),
     path = require('path'),
     fs = require('fs'),
-    packageFile;
+    packageFile,
+    title;
 
 function loadTemplate(callback) {
     var filename = path.join(__dirname, 'template.tmpl');
@@ -28,6 +29,7 @@ function loadTemplate(callback) {
 }
 
 packageFile = process.argv[2] || 'package.json';
+title = process.argv[3] || false;
 
 process.chdir(path.dirname(packageFile));
 vm.initialize(false, function () {
@@ -67,7 +69,10 @@ vm.initialize(false, function () {
                 };
             });
 
-            console.log(template.render({packages: result}));
+            process.stdout.write(template.render({
+                title: title,
+                packages: result
+            }));
         });
     });
 });
