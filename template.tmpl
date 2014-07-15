@@ -3,27 +3,88 @@
     <head>
         {{#title}}<title>{{title}}</title>{{/title}}
         <style>
-            body {font-size: 16px;}
-            tr.outdated {background: red}
+            body {
+                font-size: 1em;
+                font-family: 'Arial';
+            }
+            .title {
+                margin: 1em auto;
+                text-align: center;
+            }
+            .table {
+                display: table;
+                margin: 1em auto;
+                border-collapse: collapse;
+                border: 1px solid #EEE;
+                border-bottom: 0.3em solid #555aaa;
+                box-shadow: 0px  0px 20px rgba(0, 0, 0, 0.05),
+                            0px 10px 20px rgba(0, 0, 0, 0.05),
+                            0px 20px 20px rgba(0, 0, 0, 0.05),
+                            0px 30px 20px rgba(0, 0, 0, 0.05);
+            }
+            .row {
+                display: table-row;
+            }
+            .row:hover {
+                background: #f4f4f4;
+            }
+            .row:hover .cell {
+                color: #555;
+            }
+            .row.header {
+                display: table-header-group;
+            }
+            .cell {
+                display: table-cell;
+                color: #999;
+                border: 1px solid #eee;
+                padding: 0.5em;
+                border-collapse: collapse;
+            }
+            .row.header .cell {
+                background: #555aaa;
+                color: #fff;
+                text-transform: uppercase;
+                font-size: 1.1em;
+                padding: 1em 0.5em;
+            }
+
+            .package .cell {
+                text-align: center;
+            }
+            .package .cell:first-child {
+                text-align: left;
+            }
+            .package.outdated {
+                background: #C43535;
+            }
+            .package.outdated:hover {
+                background: #B43535;
+            }
+            .package.outdated .cell {
+                color: #fff;
+            }
         </style>
     </head>
     <body>
-        {{#title}}<h1>{{title}}</h1>{{/title}}
-        <table>
-            <tr>
-                <td>package</td>
-                <td>current</td>
-                <td>installed</td>
-                <td>latest</td>
-            </tr>
-            {{#packages}}
-            <tr class="package{{#outdated}} outdated{{/outdated}}">
-                <td>{{package}}</td>
-                <td>{{current}}</td>
-                <td>{{installed}}</td>
-                <td>{{latest}}</td>
-            </tr>
-            {{/packages}}
-        </table>
+        {{#title}}
+            <header class="title"><h1>{{title}}</h1></header>
+        {{/title}}
+        <section class="table">
+          <header class="row header">
+            <div class="cell">package</div>
+            <div class="cell">current</div>
+            <div class="cell">installed</div>
+            <div class="cell">latest</div>
+          </header>
+          {{#packages}}
+            <div class="row package{{#outdated}} outdated{{/outdated}}">
+              <div class="cell">{{package}}</div>
+              <div class="cell">{{current}}</div>
+              <div class="cell">{{installed}}</div>
+              <div class="cell">{{latest}}</div>
+            </div>
+          {{/packages}}
+        </section>
     </body>
 </html>
