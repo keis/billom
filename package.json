@@ -23,8 +23,8 @@
         "billom": "./billom.js"
     },
     "dependencies": {
-        "async": "~0.8.0",
+        "async": "~0.9.0",
         "npm-check-updates": "1.2.0",
-        "hogan.js": "~2.0.0"
+        "hogan.js": "~3.0.0"
     }
 }
