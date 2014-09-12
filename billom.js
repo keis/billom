@@ -55,6 +55,10 @@ vm.initialize(false, function () {
         vm.getLatestVersions(packages, function (err, latest) {
             var result;
 
+            if (err) {
+                return console.log(err.message);
+            }
+
             result = packages.map(function (key) {
                 var lv = latest[key],
                     iv = results.installed[key],
