@@ -7,6 +7,8 @@ var dependencyDetails = require('npm-dependency-details'),
     hogan = require('hogan.js'),
     path = require('path'),
     fs = require('fs'),
+    rapidus = require('rapidus'),
+    npmLogger = require('./npm-logger'),
     packageFile,
     title,
     dir;
@@ -34,7 +36,9 @@ packageFile = process.argv[2] || 'package.json';
 title = process.argv[3] || false;
 dir = path.dirname(packageFile);
 
-npmconf.load({}, function (err, config) {
+rapidus.getLogger().addSink(rapidus.sinks.console());
+
+npmconf.load({log: npmLogger}, function (err, config) {
     async.parallel([
         loadTemplate,
         dependencyDetails(config, dir)
