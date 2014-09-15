@@ -8,13 +8,10 @@ var dependencyDetails = require('npm-dependency-details'),
     path = require('path'),
     fs = require('fs'),
     rapidus = require('rapidus'),
-    npmLogger = require('./npm-logger'),
-    packageFile,
-    title,
-    dir;
+    npmLogger = require('./npm-logger');
 
-function loadTemplate(callback) {
-    var filename = path.join(__dirname, 'template.tmpl');
+// Load a mustache template
+function loadTemplate(filename, callback) {
     fs.readFile(filename, 'utf-8', function (err, data) {
         var template;
 
@@ -30,17 +27,21 @@ function loadTemplate(callback) {
 
         callback(null, template);
     });
+
+    return function (fun) {
+        callback = fun;
+    }
 }
 
-packageFile = process.argv[2] || 'package.json';
-title = process.argv[3] || false;
-dir = path.dirname(packageFile);
+// Configure npm
+function configure(callback) {
+    npmconf.load({log: npmLogger}, callback);
+}
 
-rapidus.getLogger().addSink(rapidus.sinks.console());
-
-npmconf.load({log: npmLogger}, function (err, config) {
+// Generate report on used packages
+function generate(config, dir, title, callback) {
     async.parallel([
-        loadTemplate,
+        loadTemplate(path.join(__dirname, 'template.tmpl')),
         dependencyDetails(config, dir)
     ], function (err, results) {
         var packages,
@@ -49,7 +50,7 @@ npmconf.load({log: npmLogger}, function (err, config) {
             result;
 
         if (err) {
-            return console.error('An error occured: ' + err);
+            callback(err);
         }
 
         template = results[0];
@@ -68,9 +69,36 @@ npmconf.load({log: npmLogger}, function (err, config) {
             };
         });
 
-        process.stdout.write(template.render({
+        callback(null, template.render({
             title: title,
             packages: result
         }));
     });
-});
+}
+
+function main() {
+    var packageFile,
+        title,
+        dir;
+
+    packageFile = process.argv[2] || 'package.json';
+    title = process.argv[3] || false;
+    dir = path.dirname(packageFile);
+
+    rapidus.getLogger().addSink(rapidus.sinks.console());
+
+    configure(function (err, config) {
+        generate(config, dir, title, function (err, result) {
+            if (err) {
+                return console.error('An error occured: ' + err);
+            }
+
+            process.stdout.write(result);
+        });
+    });
+}
+
+// Do stuff if this is the main module.
+if (require.main === module) {
+    main();
+}
