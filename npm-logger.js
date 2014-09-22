@@ -19,7 +19,11 @@ module.exports = {
     error: logFunction('ERROR'),
     silent: logFunction(0),
     http: function () {
-        var logger = rapidus.getLogger('http');
-        logger.info.apply(logger, arguments);
+        var logger = rapidus.getLogger('http'),
+            req = arguments[0] === 'request';
+
+        logger.info('%s %s',
+                    req ? arguments[1] : arguments[0],
+                    req ? arguments[2] : arguments[1]);
     }
 };

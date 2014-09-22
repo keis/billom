@@ -8,6 +8,7 @@ var dependencyDetails = require('npm-dependency-details'),
     path = require('path'),
     fs = require('fs'),
     rapidus = require('rapidus'),
+    createFormatter = require('rapidus-sparkle').createFormatter,
     npmLogger = require('./npm-logger');
 
 // Load a mustache template
@@ -76,6 +77,12 @@ function generate(config, dir, title, callback) {
     });
 }
 
+function forceColour() {
+    try {
+        require('rapidus-sparkle/node_modules/chalk').enabled = true;
+    } catch (err) {}
+}
+
 function main() {
     var packageFile,
         title,
@@ -85,7 +92,11 @@ function main() {
     title = process.argv[3] || false;
     dir = path.dirname(packageFile);
 
-    rapidus.getLogger().addSink(rapidus.sinks.console());
+    forceColour();
+    rapidus.getLogger('attempt').setLevel('ERROR');
+    rapidus.getLogger().addSink(rapidus.sinks.console({
+        format: createFormatter('%{green [:date :time]} :name [:levelName] - :message')
+    }));
 
     configure(function (err, config) {
         generate(config, dir, title, function (err, result) {
