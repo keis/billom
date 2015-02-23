@@ -84,12 +84,22 @@ function forceColour() {
 }
 
 function main() {
-    var packageFile,
+    var yargs = require('yargs'),
+        argv,
+        packageFile,
         title,
         dir;
 
-    packageFile = process.argv[2] || 'package.json';
-    title = process.argv[3] || false;
+    argv = yargs
+        .usage('Usage: $0 [package.json] [title]')
+        .argv
+
+    if (argv.help) {
+        return console.log(yargs.help());
+    }
+
+    packageFile = argv._[1] || 'package.json';
+    title = argv._[2] || false;
     dir = path.dirname(packageFile);
 
     forceColour();
