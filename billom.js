@@ -43,7 +43,7 @@ function configure(callback) {
 function generate(config, dir, title, callback) {
     async.parallel([
         loadTemplate(path.join(__dirname, 'template.tmpl')),
-        dependencyDetails(config, dir)
+        dependencyDetails({config: config, depth: 0}, dir)
     ], function (err, results) {
         var packages,
             details,
