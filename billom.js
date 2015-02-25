@@ -98,9 +98,8 @@ function main() {
         return console.log(yargs.help());
     }
 
-    packageFile = argv._[1] || 'package.json';
-    title = argv._[2] || false;
-    dir = path.dirname(packageFile);
+    packageFile = argv._[0] || 'package.json';
+    title = argv._[1] || false;
 
     forceColour();
     rapidus.getLogger('attempt').setLevel('ERROR');
