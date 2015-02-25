@@ -1,7 +1,7 @@
 {
   "name": "billom",
   "description": "Generate a neat inventory of used packages",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": "http://github.com/keis/billom.git",
   "bugs": {
     "url": "https://github.com/keis/billom/issues"
