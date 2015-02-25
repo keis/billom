@@ -77,12 +77,6 @@ function generate(config, dir, title, callback) {
     });
 }
 
-function forceColour() {
-    try {
-        require('rapidus-sparkle/node_modules/chalk').enabled = true;
-    } catch (err) {}
-}
-
 function main() {
     var yargs = require('yargs'),
         argv,
@@ -102,7 +96,6 @@ function main() {
     title = argv._[1] || false;
     dir = path.dirname(packageFile);
 
-    forceColour();
     rapidus.getLogger('attempt').setLevel('ERROR');
     rapidus.getLogger().addSink(rapidus.sinks.console({
         format: createFormatter('%{green [:date :time]} :name [:levelName] - :message')
