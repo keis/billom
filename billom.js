@@ -100,6 +100,7 @@ function main() {
 
     packageFile = argv._[0] || 'package.json';
     title = argv._[1] || false;
+    dir = path.dirname(packageFile);
 
     forceColour();
     rapidus.getLogger('attempt').setLevel('ERROR');
