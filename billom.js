@@ -2,7 +2,7 @@
 'use strict';
 
 var dependencyDetails = require('npm-dependency-details'),
-    async = require('async'),
+    parallel = require('run-parallel'),
     npmconf = require('npmconf'),
     hogan = require('hogan.js'),
     path = require('path'),
@@ -41,7 +41,7 @@ function configure(callback) {
 
 // Generate report on used packages
 function generate(config, dir, title, callback) {
-    async.parallel([
+    parallel([
         loadTemplate(path.join(__dirname, 'template.tmpl')),
         dependencyDetails({config: config, depth: 0}, dir)
     ], function (err, results) {
