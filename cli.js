@@ -4,7 +4,7 @@
 var billom = require('./lib/billom')
   , rapidus = require('rapidus')
   , path = require('path')
-  , createFormatter = require('rapidus-sparkle').createFormatter
+  , createFormatter = require('rapidus-sparkle')
   , configure = billom.configure
   , generate = billom.generate
 
