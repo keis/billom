@@ -20,21 +20,21 @@
     "bom"
   ],
   "license": "MIT",
-  "main": "billom.js",
+  "main": "lib/billom",
   "bin": {
-    "billom": "./billom.js"
+    "billom": "./cli.js"
   },
   "scripts": {
-    "lint": "eslint billom.js npm-logger.js"
+    "lint": "eslint lib cli.js"
   },
   "dependencies": {
     "hogan.js": "~3.0.0",
+    "meow": "^3.1.0",
     "npm-dependency-details": "^0.3.0",
     "npmconf": "^2.0.9",
     "rapidus": "^0.3.1",
     "rapidus-sparkle": "^0.3.0",
-    "run-parallel": "^1.1.1",
-    "yargs": "^3.2.1"
+    "run-parallel": "^1.1.1"
   },
   "devDependencies": {
     "eslint": "^0.22.1"
