@@ -24,7 +24,8 @@ function main() {
 
   rapidus.getLogger('attempt').setLevel('ERROR')
   rapidus.getLogger().addSink(rapidus.sinks.console({
-      format: createFormatter('%{green [:date :time]} :name [:levelName] - :message')
+    format: createFormatter(
+      '%{green [:date :time]} :name [:levelName] - :message')
   }))
 
   configure(function (err, config) {
