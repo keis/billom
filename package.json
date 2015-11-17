@@ -30,7 +30,7 @@
   "dependencies": {
     "hogan.js": "~3.0.0",
     "meow": "^3.1.0",
-    "npm-dependency-details": "^0.4.2",
+    "npm-dependency-details": "^1.0.0",
     "npmconf": "^2.0.9",
     "rapidus": "^0.4.0",
     "rapidus-sparkle": "^1.0.1",
